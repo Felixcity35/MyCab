@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "874283236336",
+    "firebase_url": "https://mycab-5d8fa.firebaseio.com",
+    "project_id": "mycab-5d8fa",
+    "storage_bucket": "mycab-5d8fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874283236336:android:7aef94df1c9acd4b",
+        "android_client_info": {
+          "package_name": "com.example.felixcity.mycab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874283236336-f6lf0o52i08r2dm8iqihre0ol26h6u8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.felixcity.mycab",
+            "certificate_hash": "0467998ecbeaabef9045808edfd57c2304e4ecad"
+          }
+        },
+        {
+          "client_id": "874283236336-7888kp796fhb4uahkg43ld0ven6ga43c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpS4mGwQAlklKfugGBAlzPjtMjOdwTPTo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874283236336-7888kp796fhb4uahkg43ld0ven6ga43c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
