@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverLoginRegisterActivity extends AppCompatActivity {
 
@@ -28,6 +30,8 @@ public class DriverLoginRegisterActivity extends AppCompatActivity {
     private ProgressDialog loadingBar;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference driverDatabaseRef;
+    private String onlineDriverID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class DriverLoginRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_driver_login_register);
 
         mAuth = FirebaseAuth.getInstance();
+
 
         driverLoginButton = (Button) findViewById(R.id.driver_login_btn);
         driverRegisterButton=(Button)findViewById(R.id.driver_register_btn);
@@ -98,10 +103,12 @@ public class DriverLoginRegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(DriverLoginRegisterActivity.this, "Driver LoggedIn Successfully...", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
                                 Intent driverIntent = new Intent(DriverLoginRegisterActivity.this,DriversMapsActivity.class);
                                 startActivity(driverIntent);
+
+                                Toast.makeText(DriverLoginRegisterActivity.this, "Driver LoggedIn Successfully...", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+
                             } else {
                                 Toast.makeText(DriverLoginRegisterActivity.this, "LoggingIn Unsuccessful.., please try again", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
@@ -135,11 +142,19 @@ public class DriverLoginRegisterActivity extends AppCompatActivity {
                           public void onComplete(@NonNull Task<AuthResult> task) {
                               if(task.isSuccessful())
                               {
-                                  Toast.makeText(DriverLoginRegisterActivity.this, "Driver Register Successfully...", Toast.LENGTH_SHORT).show();
-                                  loadingBar.dismiss();
+                                  onlineDriverID = mAuth.getCurrentUser().getUid();
+                                  driverDatabaseRef = FirebaseDatabase.getInstance().getReference()
+                                          .child("Users").child("Drivers").child(onlineDriverID);
+
+                                  driverDatabaseRef.setValue(true);
 
                                   Intent driverIntent = new Intent(DriverLoginRegisterActivity.this,DriversMapsActivity.class);
                                   startActivity(driverIntent);
+
+                                  Toast.makeText(DriverLoginRegisterActivity.this, "Driver Register Successfully...", Toast.LENGTH_SHORT).show();
+                                  loadingBar.dismiss();
+
+
                               }
                               else
                               {

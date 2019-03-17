@@ -1,6 +1,7 @@
 package com.example.felixcity.mycab;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CustomerLoginRegisterActivity extends AppCompatActivity {
     private Button customerLoginButton;
@@ -23,8 +26,12 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity {
     private TextView customerstatus;
     private EditText EmailCustomer;
     private EditText PasswordCustomer;
-    private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
+
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference customerDatabaseRef;
+    private String onlineCustomerID;
 
 
     @Override
@@ -99,6 +106,9 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity {
                         {
                             if(task.isSuccessful())
                             {
+                                Intent customerIntent = new Intent(CustomerLoginRegisterActivity.this,CustomersMapsActivity.class);
+                                startActivity(customerIntent);
+
                                 Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Logged In Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }
@@ -137,8 +147,18 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity {
                         {
                             if(task.isSuccessful())
                             {
+                                onlineCustomerID = mAuth.getCurrentUser().getUid();
+                                customerDatabaseRef = FirebaseDatabase.getInstance().getReference()
+                                        .child("Users").child("Customers").child(onlineCustomerID);
+
+                                customerDatabaseRef.setValue(true);
+
+                                Intent driverIntent = new Intent(CustomerLoginRegisterActivity.this,CustomersMapsActivity.class);
+                                startActivity(driverIntent);
+
                                 Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Register Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
+
                             }
                             else
                             {
